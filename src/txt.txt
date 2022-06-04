@@ -1,0 +1,52 @@
+business
+entertainment
+general
+health
+science
+sports
+technology
+
+
+
+const handlePrevClick = async () => {
+    props.setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page - 1}&pageSize=${props.pagesize}`;
+    setLoading(true)
+    let data = await fetch(url);
+    props.setProgress(30);
+    let parse = await data.json()
+    props.setProgress(70);
+    console.log(parse);
+    setArticles(parse.articles)
+    setTotalResults(parse.totalResults)
+    setLoading(false)
+    setPage(page - 1)
+    props.setProgress(100);
+  }
+
+  const handleNextClick = async () => {
+    props.setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pagesize}`;
+    setLoading(true)
+    let data = await fetch(url);
+    props.setProgress(30);
+    let parse = await data.json()
+    props.setProgress(70);
+    console.log(parse);
+    setArticles(parse.articles)
+    setTotalResults(parse.totalResults)
+    setLoading(false)
+    setPage(page + 1)
+    props.setProgress(100);
+  }
+
+
+<div className="container d-flex justify-content-between">
+          <button disabled={page === 1} type="button" className='btn btn-primary' onClick={handlePrevClick}> &larr; Previous</button>
+          <button disabled={page + 1 > Math.ceil(totalResults / props.pagesize)} type="button" className='btn btn-primary' onClick={handleNextClick}>Next &rarr;</button>
+</div>
+
+
+  setProgress = (progress)=>{
+    this.setState({progress: progress})
+  }
